@@ -5,6 +5,7 @@ import { Check, CircleX, Copy, Music2, RotateCcw, Settings2, SkipForward, Smartp
 
 type Status = 'pending' | 'active' | 'correct' | 'wrong' | 'passed'
 type Letter = { letter: string; clue: string; answer: string; gift: string; status: Status }
+type RoomResponse = { started?: boolean; selected?: number; statuses?: Status[] }
 
 const seed: Letter[] = [
   ['A','Algo que Elena siempre lleva en el bolso','abanico','Un detalle con mucho aire'],['B','Un plan para hacer juntos','barco','Una escapada'],['C','Su postre favorito','chocolate','Una caja especial'],['D','Donde empezó todo','domingo','Una carta'],['E','La inicial de la cumpleañera','elena','El regalo principal'],['F','Una flor que le pega mucho','flor','Un ramo'],['G','Algo que nunca falta en una celebración','globos','Una sorpresa decorada'],['H','Un lugar para descansar','hotel','Una noche fuera'],['I','Lo que hace que todo sea inolvidable','ilusión','Un recuerdo'],['J','Una joya pequeña','joya','Un destello'],['L','Una forma de decir te quiero','luz','Un momento a solas'],['M','Su música para bailar','música','Una playlist'],['N','Lo que hoy celebramos','nacimiento','Muchos años felices'],['O','Un abrazo muy grande es...','oso','Un peluche'],['P','Pasa palabra si no la sabes','pasa','Seguimos jugando'],['Q','Algo que se hace con cariño','querer','Un beso'],['R','Lo que Elena se merece hoy','reina','Un día de reina'],['S','Un recuerdo que guardamos','sonrisa','Una foto'],['T','Un viaje que empieza con T','tren','Billetes para dos'],['U','Lo que somos cuando estamos juntos','uno','Tiempo compartido'],['V','Un deseo de cumpleaños','vida','Un brindis'],['Y','Un regalo hecho con...','yema','Un dulce'],['Z','El final de este rosco','zapatillas','Para estrenar']
@@ -35,21 +36,23 @@ export function GameRoom({ mode, room }: { mode: 'screen' | 'control'; room: str
   const [started, setStarted] = useState(false)
   const current = letters[selected]
   useEffect(() => {
-    if (mode !== 'screen' || !room || started) return
-    const checkStarted = async () => {
+    if (mode !== 'screen' || !room) return
+    const syncRoom = async () => {
       const response = await fetch(`/api/rooms?room=${encodeURIComponent(room)}`, { cache: 'no-store' })
       if (response.ok) {
-        const data = await response.json() as { started?: boolean }
+        const data = await response.json() as RoomResponse
         if (data.started) {
           setStarted(true)
           setRunning(true)
+          if (typeof data.selected === 'number') setSelected(data.selected)
+          if (data.statuses?.length === letters.length) setLetters((items) => items.map((item, index) => ({ ...item, status: data.statuses?.[index] ?? item.status })))
         }
       }
     }
-    checkStarted()
-    const id = window.setInterval(checkStarted, 1000)
+    syncRoom()
+    const id = window.setInterval(syncRoom, 1000)
     return () => window.clearInterval(id)
-  }, [mode, room, started])
+  }, [letters.length, mode, room, started])
   useEffect(() => {
     if (!started || !running) return
     const id = window.setInterval(() => {
@@ -64,10 +67,20 @@ export function GameRoom({ mode, room }: { mode: 'screen' | 'control'; room: str
     return () => window.clearInterval(id)
   }, [letters.length, running])
   const update = (index: number, key: 'clue' | 'answer' | 'gift', value: string) => setLetters((items) => items.map((item, i) => i === index ? { ...item, [key]: value } : item))
-  const setStatus = (status: Status) => setLetters((items) => items.map((item, index) => index === selected ? { ...item, status } : item))
-  const next = () => { setSelected((selected + 1) % letters.length); setSeconds(30); setRunning(true) }
+  const setStatus = (status: Status) => {
+    const updatedLetters = letters.map((item, index) => index === selected ? { ...item, status } : item)
+    setLetters(updatedLetters)
+    fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room, selected, statuses: updatedLetters.map((item) => item.status) }) })
+  }
+  const next = () => {
+    const nextSelected = (selected + 1) % letters.length
+    setSelected(nextSelected)
+    setSeconds(30)
+    setRunning(true)
+    fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room, selected: nextSelected, statuses: letters.map((item) => item.status) }) })
+  }
   const startGame = async () => {
-    const response = await fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room }) })
+    const response = await fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room, selected: 0, statuses: letters.map((item) => item.status) }) })
     if (response.ok) { setStarted(true); setRunning(true) }
   }
   const color = (status: Status) => status === 'correct' ? 'bg-emerald-500 text-white border-emerald-300' : status === 'wrong' ? 'bg-rose-500 text-white border-rose-300' : status === 'passed' ? 'bg-amber-400 text-slate-950 border-amber-200' : status === 'active' ? 'border-primary text-primary bg-card' : 'border-border bg-card text-foreground'
