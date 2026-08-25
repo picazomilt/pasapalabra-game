@@ -34,7 +34,10 @@ export function GameRoom({ mode, room }: { mode: 'screen' | 'control'; room: str
   const [seconds, setSeconds] = useState(30)
   const [running, setRunning] = useState(false)
   const [started, setStarted] = useState(false)
+  const syncedSelected = useRef<number | null>(null)
+  const lettersRef = useRef(letters)
   const current = letters[selected]
+  useEffect(() => { lettersRef.current = letters }, [letters])
   useEffect(() => {
     if (mode !== 'screen' || !room) return
     const syncRoom = async () => {
@@ -44,7 +47,13 @@ export function GameRoom({ mode, room }: { mode: 'screen' | 'control'; room: str
         if (data.started) {
           setStarted(true)
           setRunning(true)
-          if (typeof data.selected === 'number') setSelected(data.selected)
+          if (typeof data.selected === 'number') {
+            if (syncedSelected.current !== data.selected) {
+              setSelected(data.selected)
+              setSeconds(30)
+              syncedSelected.current = data.selected
+            }
+          }
           if (data.statuses?.length === letters.length) setLetters((items) => items.map((item, index) => ({ ...item, status: data.statuses?.[index] ?? item.status })))
         }
       }
@@ -58,14 +67,19 @@ export function GameRoom({ mode, room }: { mode: 'screen' | 'control'; room: str
     const id = window.setInterval(() => {
       setSeconds((value) => {
         if (value <= 1) {
-          setSelected((index) => (index + 1) % letters.length)
+          const nextSelected = (selected + 1) % letters.length
+          setSelected(nextSelected)
+          if (mode === 'control') {
+            syncedSelected.current = nextSelected
+            fetch('/api/rooms', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ room, selected: nextSelected, statuses: lettersRef.current.map((item) => item.status) }) })
+          }
           return 30
         }
         return value - 1
       })
     }, 1000)
     return () => window.clearInterval(id)
-  }, [letters.length, running])
+  }, [letters.length, mode, room, running, selected])
   const update = (index: number, key: 'clue' | 'answer' | 'gift', value: string) => setLetters((items) => items.map((item, i) => i === index ? { ...item, [key]: value } : item))
   const setStatus = (status: Status) => {
     const updatedLetters = letters.map((item, index) => index === selected ? { ...item, status } : item)
