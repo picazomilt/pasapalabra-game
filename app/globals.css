@@ -162,16 +162,6 @@
   line-height: 1.2;
 }
 
-@media (min-width: 1024px) {
-  .projection-bg > section:not(:only-child) {
-    grid-template-columns: minmax(0, 1fr) !important;
-  }
-
-  .projection-bg > section:not(:only-child) > div:nth-child(2) {
-    width: 100%;
-  }
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
