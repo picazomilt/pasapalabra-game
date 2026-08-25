@@ -157,6 +157,11 @@
   background: radial-gradient(circle at 50% 12%, oklch(0.27 0.08 50 / 0.55), transparent 34%), radial-gradient(circle at 18% 80%, oklch(0.22 0.06 165 / 0.35), transparent 30%), var(--background);
 }
 
+.projection-bg h2 {
+  font-size: clamp(1.5rem, 2vw, 2.25rem) !important;
+  line-height: 1.2;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
