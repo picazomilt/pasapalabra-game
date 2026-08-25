@@ -8,18 +8,18 @@ type Letter = { letter: string; clue: string; answer: string; gift: string; stat
 type RoomResponse = { started?: boolean; selected?: number; statuses?: Status[] }
 
 const seed: Letter[] = [
-  ['A','Empieza por A: calzado deportivo para caminar.','Zapatillas','Un detalle para moverse con estilo'],
-  ['B','Empieza por B: bolso que se lleva cruzado.','Bandolera','Un regalo práctico y chic'],
-  ['D','Contiene la D: calzado abierto de verano.','Sandalias','Un detalle para caminar y brillar'],
-  ['I','Empieza por I: accesorios que se llevan en las orejas.','Pendientes','Un brillo especial'],
-  ['L','Empieza por L: juego para celebrar una fecha especial.','Mi cumple','Una sorpresa para reír y jugar'],
-  ['M','Empieza por M: bolsa para llevar tus cosas.','Mochila','Un regalo útil y muy tuyo'],
-  ['N','Contiene la N: entradas para disfrutar de música en directo.','Entradas','Una noche para recordar'],
-  ['P','Empieza por P: aroma que se aplica sobre la piel.','Perfume','Un detalle que deja huella'],
-  ['Q','Contiene la Q: prenda para completar un look.','Chaqueta','Un look especial para ti'],
-  ['R','Empieza por R: prendas cómodas para dormir.','Pijama','Un regalo para descansar mejor'],
-  ['T','Empieza por T: botas que estilizan y llevan tacón.','Botas de tacón','Un detalle para pisar fuerte'],
-  ['U','Empieza por U: actividad para divertirse alrededor de una mesa.','Juego de mesa','Una tarde de risas y competencia']
+  ['A','Empieza por A: elemento imprescindible para afrontar una actividad que consiste en desplazarse voluntariamente durante una cantidad considerable de tiempo, aunque nadie te persiga.','Zapatillas','Un detalle para moverse con estilo'],
+  ['B','Empieza por B: complemento que permite transportar objetos personales sin necesidad de convertir los bolsillos en almacenes de emergencia.','Bandolera','Un regalo práctico y chic'],
+  ['D','Contiene la D: calzado que, dependiendo del contexto, puede convertir unos pies preparados para andar en unos pies preparados para salir de cita.','Sandalias','Un detalle para caminar y brillar'],
+  ['I','Empieza por I: objetos que no suelen utilizarse para escuchar, aunque se colocan sospechosamente cerca de las orejas.','Pendientes','Un brillo especial'],
+  ['L','Empieza por L: juego de mesa que, aunque parece tener relación con una celebración, puede acabar demostrando quién de los dos tiene más suerte... o quién hace trampas.','Mi cumple','Una sorpresa para reír y jugar'],
+  ['M','Empieza por M: recipiente portátil en el que misteriosamente siempre cabe algo más, aunque cinco minutos antes estuviera “completamente lleno”.','Mochila','Un regalo útil y muy tuyo'],
+  ['N','Contiene la N: documento que permite acceder a un acontecimiento musical en el que dos personas podrán cantar, bailar y probablemente acabar afónicas.','Entradas de concierto','Una noche para recordar'],
+  ['P','Empieza por P: sustancia cuya función principal es conseguir que una persona huela especialmente bien, aunque su verdadero objetivo sea que alguien se acerque un poco más.','Perfume','Un detalle que deja huella'],
+  ['Q','Contiene la Q: prenda que se utiliza cuando hace frío, pero que también puede utilizarse para completar un conjunto y hacer que alguien diga “qué guapa vas”.','Chaqueta','Un look especial para ti'],
+  ['R','Empieza por R: conjunto de prendas cuyo principal objetivo es acompañar a una persona durante una actividad que, paradójicamente, suele consistir en no hacer absolutamente nada.','Ropa para dormir','Un regalo para descansar mejor'],
+  ['T','Empieza por T: calzado que aumenta considerablemente la altura de quien lo lleva y, en determinadas circunstancias, también el peligro de que su acompañante se quede mirándola demasiado.','Botas altas de tacón','Un detalle para pisar fuerte'],
+  ['U','Empieza por U: actividad en la que varias personas se reúnen alrededor de una mesa con la intención de divertirse y terminan descubriendo que alguien se toma demasiado en serio ganar.','Juego de mesa','Una tarde de risas y competencia']
 ].map(([letter, clue, answer, gift]) => ({ letter, clue, answer, gift, status: 'pending' }))
 
 function BirthdayMusic({ enabled, setEnabled }: { enabled: boolean; setEnabled: (value: boolean) => void }) {
