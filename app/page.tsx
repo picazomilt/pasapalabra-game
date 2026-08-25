@@ -1,47 +1,27 @@
+'use client'
+
+import { useMemo, useState } from 'react'
+import { GameRoom } from '@/components/game-room'
+
 export default function Page() {
-  return (
-    <main
-      style={{
-        colorScheme: 'light dark',
-        position: 'relative',
-        display: 'flex',
-        minHeight: '100vh',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'light-dark(#fff, #000)',
-        color: 'light-dark(#000, #fff)',
-      }}
-    >
-      <svg
-        aria-hidden="true"
-        style={{ width: 80, height: 80 }}
-        width={80}
-        height={80}
-        fill="none"
-        viewBox="0 0 20 20"
-        xmlns="http://www.w3.org/2000/svg"
-        stroke="currentColor"
-        strokeWidth="0.5"
-      >
-        <path
-          d="M14.2 14.2H17V6.9375C17 4.76288 15.2371 3 13.0625 3H5.8V5.8M14.2 14.2V7.79063L7.79062 14.2H14.2ZM14.2 14.2V17H6.9375C4.76288 17 3 15.2371 3 13.0625V5.8H5.8M5.8 5.8V12.2313L12.2313 5.8H5.8Z"
-          strokeLinejoin="round"
-        />
-      </svg>
-      <p
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: 'calc(50% + 56px)',
-          transform: 'translateX(-50%)',
-          whiteSpace: 'nowrap',
-          fontSize: '14px',
-          fontWeight: 500,
-          color: 'light-dark(#71717a, #a1a1aa)',
-        }}
-      >
-        Your v0 generation will show here.
-      </p>
-    </main>
-  )
+  const [started, setStarted] = useState(false)
+
+  const initialCode = useMemo(() => Math.random().toString(36).slice(2, 8).toUpperCase(), [])
+  if (!started) {
+    return (
+      <main className="min-h-screen bg-background px-6 py-10 text-foreground">
+        <div className="mx-auto flex min-h-[80vh] max-w-3xl flex-col items-center justify-center text-center">
+          <p className="font-mono text-xs uppercase tracking-[0.35em] text-primary">Una sorpresa para Elena</p>
+          <h1 className="mt-5 font-serif text-6xl leading-[0.95] text-balance md:text-8xl">Cumpleaños Elena</h1>
+          <p className="mt-7 max-w-xl text-lg leading-8 text-muted-foreground">Un rosco de palabras para descubrir sus regalos, una letra cada vez.</p>
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+            <button className="rounded-full bg-primary px-7 py-4 font-semibold text-primary-foreground transition-transform hover:scale-105" onClick={() => setStarted(true)}>Crear partida</button>
+            <a className="rounded-full border border-border px-7 py-4 font-semibold hover:bg-muted" href="/control">Entrar como control</a>
+          </div>
+          <p className="mt-8 font-mono text-xs text-muted-foreground">El ordenador mostrará un código para conectar tu teléfono</p>
+        </div>
+      </main>
+    )
+  }
+  return <GameRoom mode="screen" room={initialCode} />
 }
