@@ -615,8 +615,7 @@ export function GameRoom({
               </div>
               <button
                 onClick={next}
-                disabled={letters[(selected + 1) % letters.length]?.letter === "N" && !isNUnlocked}
-                className="rounded-full border border-border p-4 hover:border-primary disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full border border-border p-4 hover:border-primary"
                 aria-label="Siguiente letra"
               >
                 <SkipForward size={20} />
