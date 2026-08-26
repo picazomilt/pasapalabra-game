@@ -242,6 +242,7 @@ export function GameRoom({
   const [running, setRunning] = useState(false);
   const [started, setStarted] = useState(false);
   const [nIntro, setNIntro] = useState(false);
+  const [advanceError, setAdvanceError] = useState("");
   const syncedSelected = useRef<number | null>(null);
   const lettersRef = useRef(letters);
   const current = letters[selected];
@@ -326,6 +327,7 @@ export function GameRoom({
       index === selected ? { ...item, status } : item,
     );
     setLetters(updatedLetters);
+    setAdvanceError("");
     setRunning(true);
     fetch("/api/rooms", {
       method: "POST",
@@ -339,7 +341,12 @@ export function GameRoom({
     });
   };
   const next = () => {
+    if (letters[selected]?.status === "pending") {
+      setAdvanceError("Marca Acierto, Fallo o Pasa antes de continuar.");
+      return;
+    }
     const nextSelected = getNextSelected(selected, letters);
+    setAdvanceError("");
     setSelected(nextSelected);
     setSeconds(50);
     const enteringN = letters[nextSelected]?.letter === "N";
@@ -364,14 +371,14 @@ export function GameRoom({
       body: JSON.stringify({
         room,
         selected: 0,
-        running: false,
+        running: true,
         nIntro: false,
         statuses: letters.map((item) => item.status),
       }),
     });
     if (response.ok) {
       setStarted(true);
-      setRunning(false);
+      setRunning(true);
       setSeconds(50);
       setNIntro(false);
     }
@@ -382,14 +389,14 @@ export function GameRoom({
     setSelected(nIndex);
     setNIntro(false);
     setSeconds(50);
-    setRunning(false);
+    setRunning(true);
     fetch("/api/rooms", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         room,
         selected: nIndex,
-        running: false,
+        running: true,
         nIntro: false,
         statuses: letters.map((item) => item.status),
       }),
@@ -708,6 +715,11 @@ export function GameRoom({
             <p className="mt-2 text-sm text-muted-foreground">
               Regalo: {current.gift}
             </p>
+            {advanceError && (
+              <p className="mt-4 rounded-xl border border-rose-400/40 bg-rose-500/10 px-3 py-2 text-sm font-semibold text-rose-400">
+                {advanceError}
+              </p>
+            )}
             <div className="mt-6 grid grid-cols-3 gap-2">
               <button
                 onClick={() => setStatus("correct")}
