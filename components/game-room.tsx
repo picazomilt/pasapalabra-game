@@ -34,13 +34,19 @@ type RoomResponse = {
 };
 
 const getNextSelected = (from: number, items: Letter[]) => {
-  let nextSelected = (from + 1) % items.length;
   const nUnlocked = items
     .filter((item) => item.letter !== "N")
     .every((item) => item.status === "correct");
-  if (items[nextSelected]?.letter === "N" && !nUnlocked)
-    nextSelected = (nextSelected + 1) % items.length;
-  return nextSelected;
+  for (let offset = 1; offset <= items.length; offset += 1) {
+    const nextSelected = (from + offset) % items.length;
+    const item = items[nextSelected];
+    if (
+      item.status !== "correct" &&
+      (item.letter !== "N" || nUnlocked)
+    )
+      return nextSelected;
+  }
+  return from;
 };
 
 const seed: Letter[] = [
