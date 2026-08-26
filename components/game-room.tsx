@@ -628,7 +628,7 @@ export function GameRoom({
             <div className="mt-6 grid grid-cols-3 gap-2">
               <button
                 onClick={() => setStatus("correct")}
-                disabled={current.status !== "pending"}
+                disabled={current.status === "correct"}
                 className="flex flex-col items-center gap-2 rounded-2xl bg-emerald-500 px-2 py-4 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Check size={21} />
@@ -636,7 +636,7 @@ export function GameRoom({
               </button>
               <button
                 onClick={() => setStatus("wrong")}
-                disabled={current.status !== "pending"}
+                disabled={current.status === "correct"}
                 className="flex flex-col items-center gap-2 rounded-2xl bg-rose-500 px-2 py-4 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <CircleX size={21} />
@@ -644,7 +644,7 @@ export function GameRoom({
               </button>
               <button
                 onClick={() => setStatus("passed")}
-                disabled={current.status !== "pending"}
+                disabled={current.status === "correct"}
                 className="flex flex-col items-center gap-2 rounded-2xl bg-amber-400 px-2 py-4 text-xs font-semibold text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <SkipForward size={21} />
