@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
 type LetterStatus = 'pending' | 'active' | 'correct' | 'wrong' | 'passed'
-type RoomState = { started: boolean; selected: number; statuses: LetterStatus[] }
-type RoomRequest = { room?: string; selected?: number; statuses?: LetterStatus[] }
+type RoomState = { started: boolean; selected: number; statuses: LetterStatus[]; running: boolean }
+type RoomRequest = { room?: string; selected?: number; statuses?: LetterStatus[]; running?: boolean }
 
 type RoomStore = Map<string, RoomState>
 
@@ -26,6 +26,7 @@ export async function POST(request: Request) {
   const current = rooms.get(room)
   const selected = typeof body?.selected === 'number' ? body.selected : current?.selected ?? 0
   const statuses = Array.isArray(body?.statuses) ? body.statuses : current?.statuses ?? []
-  rooms.set(room, { started: true, selected, statuses })
-  return NextResponse.json({ started: true, selected, statuses })
+  const running = typeof body?.running === 'boolean' ? body.running : current?.running ?? false
+  rooms.set(room, { started: true, selected, statuses, running })
+  return NextResponse.json({ started: true, selected, statuses, running })
 }
