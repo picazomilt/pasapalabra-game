@@ -545,7 +545,7 @@ export function GameRoom({
       </main>
     );
 
-  if (finished)
+  if (finished && mode === "screen")
     return (
       <main className="projection-bg flex min-h-screen items-center justify-center p-6 text-foreground">
         <section className="w-full max-w-3xl rounded-3xl border border-primary/30 bg-card/80 p-8 text-center shadow-2xl md:p-12">
