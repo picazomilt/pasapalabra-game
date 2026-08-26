@@ -31,6 +31,7 @@ type RoomResponse = {
   selected?: number;
   statuses?: Status[];
   running?: boolean;
+  nIntro?: boolean;
 };
 
 const getNextSelected = (from: number, items: Letter[]) => {
@@ -240,6 +241,7 @@ export function GameRoom({
   const [seconds, setSeconds] = useState(50);
   const [running, setRunning] = useState(false);
   const [started, setStarted] = useState(false);
+  const [nIntro, setNIntro] = useState(false);
   const syncedSelected = useRef<number | null>(null);
   const lettersRef = useRef(letters);
   const current = letters[selected];
@@ -258,6 +260,7 @@ export function GameRoom({
         if (data.started) {
           setStarted(true);
           setRunning(data.running ?? false);
+          setNIntro(data.nIntro ?? false);
           if (typeof data.selected === "number") {
             if (syncedSelected.current !== data.selected) {
               setSelected(data.selected);
@@ -286,6 +289,8 @@ export function GameRoom({
         if (value <= 1) {
           const nextSelected = getNextSelected(selected, lettersRef.current);
           setSelected(nextSelected);
+          const enteringN = lettersRef.current[nextSelected]?.letter === "N";
+          setNIntro(enteringN);
           setRunning(false);
           if (mode === "control") {
             syncedSelected.current = nextSelected;
@@ -296,6 +301,7 @@ export function GameRoom({
                 room,
                 selected: nextSelected,
                 running: false,
+                nIntro: enteringN,
                 statuses: lettersRef.current.map((item) => item.status),
               }),
             });
@@ -336,6 +342,8 @@ export function GameRoom({
     const nextSelected = getNextSelected(selected, letters);
     setSelected(nextSelected);
     setSeconds(50);
+    const enteringN = letters[nextSelected]?.letter === "N";
+    setNIntro(enteringN);
     setRunning(false);
     fetch("/api/rooms", {
       method: "POST",
@@ -344,6 +352,7 @@ export function GameRoom({
         room,
         selected: nextSelected,
         running: false,
+        nIntro: enteringN,
         statuses: letters.map((item) => item.status),
       }),
     });
@@ -356,6 +365,7 @@ export function GameRoom({
         room,
         selected: 0,
         running: false,
+        nIntro: false,
         statuses: letters.map((item) => item.status),
       }),
     });
@@ -363,7 +373,27 @@ export function GameRoom({
       setStarted(true);
       setRunning(false);
       setSeconds(50);
+      setNIntro(false);
     }
+  };
+  const continueToN = () => {
+    const nIndex = letters.findIndex((item) => item.letter === "N");
+    if (nIndex < 0) return;
+    setSelected(nIndex);
+    setNIntro(false);
+    setSeconds(50);
+    setRunning(false);
+    fetch("/api/rooms", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        room,
+        selected: nIndex,
+        running: false,
+        nIntro: false,
+        statuses: letters.map((item) => item.status),
+      }),
+    });
   };
   const pauseResume = () => {
     const nextRunning = !running;
@@ -488,6 +518,28 @@ export function GameRoom({
               {room}
             </strong>
           </div>
+        </section>
+      </main>
+    );
+
+  if (nIntro)
+    return (
+      <main className="projection-bg flex min-h-screen items-center justify-center p-6 text-foreground">
+        <section className="w-full max-w-2xl rounded-3xl border border-primary/30 bg-card/80 p-10 text-center shadow-2xl">
+          <p className="font-mono text-xs uppercase tracking-[0.35em] text-primary">
+            El rosco continúa
+          </p>
+          <h1 className="mt-5 font-serif text-5xl md:text-7xl">Y POR ÚLTIMO...</h1>
+          {mode === "control" ? (
+            <button
+              onClick={continueToN}
+              className="mt-10 rounded-2xl bg-primary px-8 py-4 text-lg font-semibold text-primary-foreground"
+            >
+              Continuar a la N
+            </button>
+          ) : (
+            <p className="mt-6 text-muted-foreground">Pulsa Continuar desde el controlador.</p>
+          )}
         </section>
       </main>
     );
