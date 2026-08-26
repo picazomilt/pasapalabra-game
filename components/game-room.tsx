@@ -8,18 +8,25 @@ type Letter = { letter: string; clue: string; answer: string; gift: string; stat
 type RoomResponse = { started?: boolean; selected?: number; statuses?: Status[] }
 
 const seed: Letter[] = [
-  ['A','Empieza por A: elemento imprescindible para afrontar una actividad que consiste en desplazarse voluntariamente durante una cantidad considerable de tiempo, aunque nadie te persiga.','Zapatillas','Un detalle para moverse con estilo'],
-  ['B','Empieza por B: complemento que permite transportar objetos personales sin necesidad de convertir los bolsillos en almacenes de emergencia.','Bandolera','Un regalo práctico y chic'],
-  ['D','Contiene la D: calzado que, dependiendo del contexto, puede convertir unos pies preparados para andar en unos pies preparados para salir de cita.','Sandalias','Un detalle para caminar y brillar'],
-  ['I','Empieza por I: objetos que no suelen utilizarse para escuchar, aunque se colocan sospechosamente cerca de las orejas.','Pendientes','Un brillo especial'],
-  ['L','Empieza por L: juego de mesa que, aunque parece tener relación con una celebración, puede acabar demostrando quién de los dos tiene más suerte... o quién hace trampas.','Mi cumple','Una sorpresa para reír y jugar'],
-  ['M','Empieza por M: recipiente portátil en el que misteriosamente siempre cabe algo más, aunque cinco minutos antes estuviera “completamente lleno”.','Mochila','Un regalo útil y muy tuyo'],
-  ['N','Contiene la N: documento que permite acceder a un acontecimiento musical en el que dos personas podrán cantar, bailar y probablemente acabar afónicas.','Entradas de concierto','Una noche para recordar'],
-  ['P','Empieza por P: sustancia cuya función principal es conseguir que una persona huela especialmente bien, aunque su verdadero objetivo sea que alguien se acerque un poco más.','Perfume','Un detalle que deja huella'],
-  ['Q','Contiene la Q: prenda que se utiliza cuando hace frío, pero que también puede utilizarse para completar un conjunto y hacer que alguien diga “qué guapa vas”.','Chaqueta','Un look especial para ti'],
-  ['R','Empieza por R: conjunto de prendas cuyo principal objetivo es acompañar a una persona durante una actividad que, paradójicamente, suele consistir en no hacer absolutamente nada.','Ropa para dormir','Un regalo para descansar mejor'],
-  ['T','Empieza por T: calzado que aumenta considerablemente la altura de quien lo lleva y, en determinadas circunstancias, también el peligro de que su acompañante se quede mirándola demasiado.','Botas altas de tacón','Un detalle para pisar fuerte'],
-  ['U','Empieza por U: actividad en la que varias personas se reúnen alrededor de una mesa con la intención de divertirse y terminan descubriendo que alguien se toma demasiado en serio ganar.','Juego de mesa','Una tarde de risas y competencia']
+  ['A','Contiene la A: Calzado destinado a acompañar a la protagonista en una actividad que consiste básicamente en desplazarse voluntariamente durante una cantidad considerable de tiempo, aunque nadie la persiga.','Zapas',''],
+  ['B','Empieza por B: Complemento diseñado para transportar objetos personales sin necesidad de convertir los bolsillos en almacenes de emergencia.','Bandolera',''],
+  ['C','Empieza por C: Aunque técnicamente es algo que se come, para nosotros puede considerarse perfectamente una actividad de ocio, especialmente cuando decidimos acudir a nuestro sitio de confianza en Imaginalia.','Crepes',''],
+  ['D','Contiene la D: Calzado que puede pasar de ser un simple complemento a convertirse en equipamiento oficial para una cita o una salida especial.','Sandalias',''],
+  ['E','Empieza por E: Ciudad portuguesa que forma parte de nuestro historial de escapadas y de uno de esos recuerdos que hemos construido juntos.','Évora',''],
+  ['H','Empieza por H: Lugar que probablemente no aparezca entre nuestros destinos turísticos soñados, pero que puede convertirse en una parada bastante importante cuando el hambre aparece durante un viaje.','Hellín',''],
+  ['I','Contiene la I: Prenda destinada a acompañar a la protagonista durante uno de los momentos del día en los que no tiene ninguna obligación de ir guapa, aunque probablemente lo consiga igualmente. Además, su diseño está inspirado en un pequeño chef francés bastante peculiar.','Pijama',''],
+  ['J','Empieza por J: Elemento que probamos por primera vez durante una de nuestras escapadas. La organización considera que fue una experiencia memorable, aunque la concursante no pareció compartir del todo dicha valoración.','Jacuzzi',''],
+  ['K','Empieza por K: Disciplina que forma parte de la historia de la protagonista y en la que, por cierto, tiene bastante más experiencia que el presentador.','Karate',''],
+  ['L','Contiene la L: Juego de mesa cuyo nombre parece haber sido creado específicamente para la ocasión que nos ocupa.','Mi Cumple',''],
+  ['M','Empieza por M: Recipiente portátil destinado a transportar todo aquello que una persona considera imprescindible para salir de casa, incluyendo probablemente cosas que descubrirá que necesitaba cinco minutos después de salir.','Mochila',''],
+  ['N','Contiene la N: Pase que permitirá repetir próximamente una experiencia que ya vivimos el año pasado, cuando disfrutamos juntos de la música de un artista que, curiosamente, comparte una colaboración con la protagonista de este premio.','Entradas de Marta Santos',''],
+  ['O','Empieza por O: Lugar que quizá no estaba destinado a convertirse en un recuerdo especial, pero donde tuve la suerte de compartir una jornada de trabajo contigo y con mi padre.','Ontur',''],
+  ['P','Empieza por P: Sustancia cuya misión principal es conseguir que una persona huela especialmente bien, aunque su verdadera utilidad podría ser conseguir que otra persona quiera acercarse un poquito más.','Perfume',''],
+  ['Q','Contiene la Q: Prenda que puede servir para protegerse del frío, pero que también puede utilizarse para completar un conjunto y provocar un «qué guapa vas».','Chaqueta vaquera',''],
+  ['T','Contiene la T: Calzado que aumenta considerablemente la altura de quien lo lleva y, en determinadas circunstancias, también el peligro de que su acompañante se quede mirándola demasiado.','Botas altas de tacón',''],
+  ['U','Contiene la U: Categoría a la que pertenece un regalo que puede conseguir que una tranquila tarde en pareja termine convirtiéndose en una batalla por encontrar antes que nadie determinados símbolos. La organización recomienda mantener la calma y recordar que ganar no da derecho a presumir durante el resto del día.','Juego de mesa',''],
+  ['V','Empieza por V: Actividad que hemos hecho juntos, que nos encanta compartir y que representa una de las cosas que más ansiamos poder hacer durante los próximos años: descubrir mundo, conocer lugares nuevos y seguir acumulando recuerdos juntos.','Viajar',''],
+  ['Z','Contiene la Z: Municipio manchego al que acompañaste a David a un bolo, donde tuvo que encargarse de un cañón de seguimiento y donde, antes de la gala, la meteorología decidió participar también en el espectáculo.','Tarazona de la Mancha','']
 ].map(([letter, clue, answer, gift]) => ({ letter, clue, answer, gift, status: 'pending' }))
 
 function BirthdayMusic({ enabled, setEnabled }: { enabled: boolean; setEnabled: (value: boolean) => void }) {
