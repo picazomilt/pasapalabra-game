@@ -628,21 +628,24 @@ export function GameRoom({
             <div className="mt-6 grid grid-cols-3 gap-2">
               <button
                 onClick={() => setStatus("correct")}
-                className="flex flex-col items-center gap-2 rounded-2xl bg-emerald-500 px-2 py-4 text-xs font-semibold text-white"
+                disabled={current.status !== "pending"}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-emerald-500 px-2 py-4 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Check size={21} />
                 Acierto
               </button>
               <button
                 onClick={() => setStatus("wrong")}
-                className="flex flex-col items-center gap-2 rounded-2xl bg-rose-500 px-2 py-4 text-xs font-semibold text-white"
+                disabled={current.status !== "pending"}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-rose-500 px-2 py-4 text-xs font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <CircleX size={21} />
                 Fallo
               </button>
               <button
                 onClick={() => setStatus("passed")}
-                className="flex flex-col items-center gap-2 rounded-2xl bg-amber-400 px-2 py-4 text-xs font-semibold text-slate-950"
+                disabled={current.status !== "pending"}
+                className="flex flex-col items-center gap-2 rounded-2xl bg-amber-400 px-2 py-4 text-xs font-semibold text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <SkipForward size={21} />
                 Pasa
