@@ -426,6 +426,7 @@ export function GameRoom({
     () => letters.filter((l) => l.status === "correct").length,
     [letters],
   );
+  const finished = letters.length > 0 && completed === letters.length;
   const copy = () =>
     navigator.clipboard?.writeText(`${location.origin}/control?room=${room}`);
 
@@ -540,6 +541,30 @@ export function GameRoom({
           ) : (
             <p className="mt-6 text-muted-foreground">Pulsa Continuar desde el controlador.</p>
           )}
+        </section>
+      </main>
+    );
+
+  if (finished)
+    return (
+      <main className="projection-bg flex min-h-screen items-center justify-center p-6 text-foreground">
+        <section className="w-full max-w-3xl rounded-3xl border border-primary/30 bg-card/80 p-8 text-center shadow-2xl md:p-12">
+          <Sparkles className="mx-auto text-primary" size={32} />
+          <p className="mt-6 font-mono text-xs uppercase tracking-[0.35em] text-primary">
+            Rosco completado
+          </p>
+          <h1 className="mt-4 font-serif text-5xl md:text-7xl">
+            FELIZ CUMPLEAÑOSSS
+          </h1>
+          <div className="mx-auto mt-8 aspect-video w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-background">
+            <iframe
+              className="h-full w-full"
+              src="https://www.youtube.com/embed/tznBgIGSi98?autoplay=1&rel=0"
+              title="Canción de cumpleaños"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            />
+          </div>
         </section>
       </main>
     );
