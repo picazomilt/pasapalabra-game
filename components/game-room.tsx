@@ -579,7 +579,7 @@ export function GameRoom({
             Una sorpresa para Elena
           </p>
           <h1 className="mt-1 font-serif text-3xl md:text-4xl">
-            Cumpleaños Elena
+            XXIII Cumpleaños de la concursante
           </h1>
         </div>
         <div className="flex items-center gap-2">

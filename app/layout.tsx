@@ -3,7 +3,7 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Cumpleaños Elena | Pasa Palabra',
+  title: 'XXIII Cumpleaños de la concursante | Pasa Palabra',
   description: 'Una ruleta de palabras y regalos preparada especialmente para Elena.',
   generator: 'v0.app',
   icons: {
