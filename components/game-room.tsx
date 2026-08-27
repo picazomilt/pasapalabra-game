@@ -563,6 +563,17 @@ export function GameRoom({
           <h1 className="mt-4 font-serif text-5xl md:text-7xl">
             FELIZ CUMPLEAÑOSSS
           </h1>
+          <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-primary/40 bg-primary/10 px-6 py-5 shadow-[0_0_35px_hsl(var(--primary)/.12)]">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
+              Una recompensa final...
+            </p>
+            <p className="mt-3 font-serif text-3xl md:text-4xl">
+              Bolos nocturno con la compañía
+            </p>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Porque el premio se disfruta mucho más en buena compañía.
+            </p>
+          </div>
           <div className="mx-auto mt-8 aspect-video w-full max-w-2xl overflow-hidden rounded-2xl border border-border bg-background">
             <iframe
               className="h-full w-full"
