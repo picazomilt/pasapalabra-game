@@ -563,14 +563,25 @@ export function GameRoom({
           <h1 className="mt-4 font-serif text-5xl md:text-7xl">
             FELIZ CUMPLEAÑOSSS
           </h1>
-          <div className="mx-auto mt-8 max-w-xl rounded-2xl border border-primary/40 bg-primary/10 px-6 py-5 shadow-[0_0_35px_hsl(var(--primary)/.12)]">
-            <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">
-              Una recompensa final...
-            </p>
-            <p className="mt-3 font-serif text-3xl md:text-4xl">
-              Bolos nocturno con la compañía
-            </p>
-            <p className="mt-2 text-sm text-muted-foreground">
+          <div className="relative mx-auto mt-8 max-w-xl overflow-hidden rounded-3xl border border-primary/40 bg-background/80 px-7 py-7 text-left shadow-[0_0_45px_hsl(var(--primary)/.16)] md:px-10 md:py-8">
+            <div className="absolute inset-x-0 top-0 h-1 bg-primary" />
+            <div className="flex items-start justify-between gap-5">
+              <div>
+                <p className="font-mono text-[10px] uppercase tracking-[0.35em] text-primary">
+                  Una recompensa final...
+                </p>
+                <p className="mt-4 font-serif text-3xl leading-tight md:text-4xl">
+                  Bolos nocturno
+                  <br />
+                  <span className="text-primary">con la compañía</span>
+                </p>
+              </div>
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-primary/30 bg-primary/10 text-2xl text-primary">
+                ✦
+              </div>
+            </div>
+            <div className="mt-6 h-px bg-border" />
+            <p className="mt-5 max-w-md text-sm leading-6 text-muted-foreground">
               Porque el premio se disfruta mucho más en buena compañía.
             </p>
           </div>
